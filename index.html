@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Krondahl – Stamtræ</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #171a21;
+      --panel-2: #1d2230;
+      --text: #e7eaf0;
+      --muted: #a9b2c3;
+      --accent: #5ea3ff;
+      --line: #2a3245;
+      --shadow: 0 10px 30px rgba(0,0,0,0.4);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 10% -10%, #162038, transparent 50%),
+                  radial-gradient(1000px 900px at 120% 0%, #1a1026, transparent 50%),
+                  var(--bg);
+      line-height: 1.45;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 16px 64px;
+    }
+
+    h1 {
+      margin: 8px 0 6px;
+      font-size: clamp(24px, 4.5vw, 42px);
+      letter-spacing: 0.3px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: clamp(13px, 1.9vw, 16px);
+      margin-bottom: 22px;
+    }
+
+    /* Tree layout */
+    .tree {
+      display: grid;
+      gap: 18px;
+    }
+
+    .person-block,
+    .couple,
+    .children {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .person-block h2,
+    .couple h2,
+    .person-block > h2 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .ancestor .person {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sibling-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .branch { display: grid; gap: 12px; }
+
+    .pair {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .children {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .person {
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.12);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .person img {
+      width: 76px;
+      height: 76px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid #2b344a;
+      background: #10131a;
+    }
+
+    .meta { display: grid; gap: 4px; }
+    .name { font-weight: 700; }
+    .role { color: var(--muted); font-size: 14px; }
+    .siblings { color: var(--muted); font-size: 13px; }
+
+    /* Connective lines (subtle) */
+    .couple::before {
+      content: "";
+      display: block;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--line), transparent);
+      margin: -6px 0 10px;
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 900px) {
+      .sibling-row { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .wrap { padding: 14px 12px 44px; }
+      .sibling-row { grid-template-columns: 1fr; }
+      .pair { grid-template-columns: 1fr; }
+      .person { grid-template-columns: 64px 1fr; }
+      .person img { width: 64px; height: 64px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Krondahl – Stamtræ</h1>
+    <div class="subtitle">Kilde: Offentlige rollebeskrivelser fra “Krigens Arv”. Stamtræet viser Krondahl-slægten med forælder, søskende og børnegrene.</div>
+
+    <div class="tree">
+      <div class="person-block ancestor" aria-label="Tidligere Overhoved (afdød)">
+        <h2>Forælder (afdød)</h2>
+        <article class="person" style="justify-content:center;">
+          <img alt="Hr. Krondahl" src="https://krigensarv.dk/wp-content/uploads/2025/05/Hof-e1747758345701.png" />
+          <div class="meta">
+            <div class="name">Hr. Krondahl †</div>
+            <div class="role">Tidligere Overhoved · Afdød</div>
+            <div class="siblings">Børn: Magnus Krondahl, Leonora Krondahl, Bodil Rosenskjold</div>
+          </div>
+        </article>
+      </div>
+
+      <div class="sibling-row">
+        <div class="branch">
+          <section class="couple" aria-label="Gren: Magnus (søskende)">
+            <h2>Gren: Magnus (søskende)</h2>
+            <div class="pair">
+              <article class="person">
+                <img alt="Magnus Krondahl" src="https://krigensarv.dk/wp-content/uploads/2025/05/Hof-e1747758345701.png" />
+                <div class="meta">
+                  <div class="name">Magnus Krondahl</div>
+                  <div class="role">Overhoved · Voksen</div>
+                  <div class="siblings">Søskende: Leonora Krondahl, Bodil Rosenskjold</div>
+                </div>
+              </article>
+              <article class="person">
+                <img alt="Mathilda Krondahl" src="https://krigensarv.dk/wp-content/uploads/2025/06/charlotte-e1750103166561.png" />
+                <div class="meta">
+                  <div class="name">Mathilda Krondahl</div>
+                  <div class="role">Gift ind i slægten · Voksen</div>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+
+        <div class="branch">
+          <section class="couple" aria-label="Gren: Leonora (søskende)">
+            <h2>Gren: Leonora (søskende)</h2>
+            <div class="pair">
+              <article class="person">
+                <img alt="Leonora Krondahl" src="https://krigensarv.dk/wp-content/uploads/2025/06/Kia-e1750104323828.png" />
+                <div class="meta">
+                  <div class="name">Leonora Krondahl</div>
+                  <div class="role">Voksen</div>
+                  <div class="siblings">Søskende: Magnus Krondahl, Bodil Rosenskjold</div>
+                </div>
+              </article>
+              <article class="person">
+                <img alt="Valdemar Erik Krondahl" src="https://krigensarv.dk/wp-content/uploads/2025/07/Bliss-e1753012274705.png" />
+                <div class="meta">
+                  <div class="name">Valdemar Erik Krondahl</div>
+                  <div class="role">Gift med Leonora · Voksen</div>
+                </div>
+              </article>
+            </div>
+            <div class="children" aria-label="Børn">
+              <article class="person">
+                <img alt="Amalie Krondahl" src="https://krigensarv.dk/wp-content/uploads/2025/06/Katrhine-e1750104401381.png" />
+                <div class="meta">
+                  <div class="name">Amalie Krondahl</div>
+                  <div class="role">Datter af Leonora & Valdemar · Ung</div>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+
+        <div class="branch">
+          <section class="person-block" aria-label="Gren: Bodil (søskende) → Rosenskjold">
+            <h2>Gren: Bodil (søskende) → Rosenskjold</h2>
+            <div class="children" aria-label="Bodil og afdøde mand">
+              <article class="person">
+                <img alt="Bodil Rosenskjold" src="https://krigensarv.dk/wp-content/uploads/2025/04/Marie-e1744726961429.png" />
+                <div class="meta">
+                  <div class="name">Bodil Rosenskjold</div>
+                  <div class="role">Tidligere ægtefælle: afdøde Overhoved af Rosenskjold</div>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
